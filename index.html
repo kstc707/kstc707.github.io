@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -49,6 +49,15 @@
       <a href="https://github.com/kstc707" class="btn btn-ghost" target="_blank" rel="noopener">GitHub ↗</a>
       <a href="#contact" class="btn btn-ghost">Say hi</a>
     </div>
+
+    <div class="hero-visual">
+      <div class="scatter-card" id="scatterCard">
+        <div class="scatter-label"><span>fit.py</span><span class="replay-hint">↻ click to re-run</span></div>
+        <svg viewBox="0 0 300 170" class="scatter-svg" id="scatterSvg" aria-hidden="true"></svg>
+        <p class="scatter-caption">Noisy points, a line that actually fits them. This is what "turning data into an answer" looks like underneath.</p>
+      </div>
+    </div>
+
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">15</span><span class="stat-label">public repos</span></div>
       <div class="stat"><span class="stat-num">3.9</span><span class="stat-label">graduate GPA</span></div>
@@ -60,7 +69,7 @@
   <section id="about" class="section container">
     <h2 class="section-title"><span class="section-tag">about</span> A little about me</h2>
     <div class="about-grid">
-      <p class="about-text">
+      <p class="about-text reveal" style="--d:0">
         Right now I'm an MS Data Science candidate at the University of Memphis
         (3.9 GPA, <strong>Weil Graduate Fellow</strong>), and I spend my days split
         between two very different data jobs: as a Data Analyst Intern at the Shelby
@@ -68,7 +77,7 @@
         and operational data, and as a Teaching Assistant for Machine Learning,
         where I get to see the same concepts click for other people.
       </p>
-      <p class="about-text">
+      <p class="about-text reveal" style="--d:1">
         Before grad school I was a data analyst at TCS and did a data analytics
         internship at Pantech, back in India — and somewhere in the middle of all
         that I also kept the University's ITS Service Desk running as an IT
@@ -86,6 +95,7 @@
     <h2 class="section-title"><span class="section-tag">experience</span> Where I've worked</h2>
     <ol class="timeline">
       <li class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot"></span></div>
         <div class="timeline-date">2026 — now</div>
         <div class="timeline-body">
           <h3>Data Analyst Intern</h3>
@@ -94,6 +104,7 @@
         </div>
       </li>
       <li class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot"></span></div>
         <div class="timeline-date">Jan 2026 — now</div>
         <div class="timeline-body">
           <h3>Teaching Assistant, Machine Learning</h3>
@@ -102,6 +113,7 @@
         </div>
       </li>
       <li class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot"></span></div>
         <div class="timeline-date">Nov 2024 — Jan 2026</div>
         <div class="timeline-body">
           <h3>IT Technical Assistant</h3>
@@ -110,6 +122,7 @@
         </div>
       </li>
       <li class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot"></span></div>
         <div class="timeline-date">Jul 2023 — Aug 2024</div>
         <div class="timeline-body">
           <h3>Data Analyst</h3>
@@ -118,6 +131,7 @@
         </div>
       </li>
       <li class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot"></span></div>
         <div class="timeline-date">Jul 2022 — Dec 2022</div>
         <div class="timeline-body">
           <h3>Data Analyst, Virtual Internship</h3>
@@ -129,12 +143,12 @@
 
     <h3 class="sub-title">Education</h3>
     <div class="edu-grid">
-      <div class="edu-card">
+      <div class="edu-card reveal" style="--d:0">
         <h4>MS, Data Science</h4>
         <p class="edu-org">University of Memphis</p>
         <p class="edu-meta">Aug 2024 – May 2026 · GPA 3.9 · Weil Graduate Fellowship</p>
       </div>
-      <div class="edu-card">
+      <div class="edu-card reveal" style="--d:1">
         <h4>B.Tech, Electronics &amp; Computer Engineering</h4>
         <p class="edu-org">JB Institute of Engineering and Technology, India</p>
         <p class="edu-meta">GPA 3.5</p>
@@ -145,10 +159,10 @@
   <!-- PROJECTS -->
   <section id="projects" class="section container">
     <h2 class="section-title"><span class="section-tag">projects</span> Things I've built</h2>
-    <p class="section-intro">Click any project to see what it actually produced — a real chart, dashboard, or screenshot, not just a description. Everything here is public, and the numbers are the numbers I actually got.</p>
+    <p class="section-intro reveal">Click any project to see what it actually produced — a real chart, dashboard, or screenshot, not just a description. Everything here is public, and the numbers are the numbers I actually got.</p>
 
     <!-- Featured -->
-    <button class="featured-card" data-project="casebench" type="button">
+    <button class="featured-card reveal" data-project="casebench" type="button">
       <div class="featured-tag">★ the big one I'm building right now</div>
       <h3>Casebench</h3>
       <p>An AI-powered professional work-simulation platform — realistic manager briefs, messy data, a SQL sandbox and code editor, and rubric-based AI evaluation across Data Analyst, Data Scientist, and Software Engineer tracks. Working prototype plus an in-progress Next.js/Postgres rebuild.</p>
@@ -165,27 +179,27 @@
   <section id="skills" class="section container">
     <h2 class="section-title"><span class="section-tag">toolkit</span> What I work with</h2>
     <div class="skills-grid">
-      <div class="skill-group">
+      <div class="skill-group reveal" style="--d:0">
         <h4>Languages &amp; Querying</h4>
         <div class="tag-row"><span class="tag">Python</span><span class="tag">R</span><span class="tag">SQL</span></div>
       </div>
-      <div class="skill-group">
+      <div class="skill-group reveal" style="--d:1">
         <h4>BI &amp; Visualization</h4>
         <div class="tag-row"><span class="tag">Power BI</span><span class="tag">Tableau</span><span class="tag">Streamlit</span><span class="tag">Plotly</span></div>
       </div>
-      <div class="skill-group">
+      <div class="skill-group reveal" style="--d:2">
         <h4>Data Engineering</h4>
         <div class="tag-row"><span class="tag">Azure Databricks</span><span class="tag">ETL Pipelines</span><span class="tag">Data Quality Auditing</span></div>
       </div>
-      <div class="skill-group">
+      <div class="skill-group reveal" style="--d:3">
         <h4>Machine Learning</h4>
         <div class="tag-row"><span class="tag">scikit-learn</span><span class="tag">PyTorch</span><span class="tag">Random Forest</span><span class="tag">SVM</span><span class="tag">Logistic Regression</span><span class="tag">Ridge / Lasso</span></div>
       </div>
-      <div class="skill-group">
+      <div class="skill-group reveal" style="--d:4">
         <h4>Statistics</h4>
         <div class="tag-row"><span class="tag">Hypothesis Testing</span><span class="tag">A/B Testing</span><span class="tag">Power Analysis</span><span class="tag">Time Series Forecasting</span></div>
       </div>
-      <div class="skill-group">
+      <div class="skill-group reveal" style="--d:5">
         <h4>Tools</h4>
         <div class="tag-row"><span class="tag">Git/GitHub</span><span class="tag">Jupyter</span><span class="tag">Excel</span></div>
       </div>
@@ -195,10 +209,10 @@
   <!-- CONTACT -->
   <section id="contact" class="section container">
     <h2 class="section-title"><span class="section-tag">contact</span> Say hi</h2>
-    <div class="contact-card">
+    <div class="contact-card reveal">
       <p>I'm looking for Data Analyst and Data Scientist roles — if any project above is relevant to what you're hiring for, I'd like to hear from you.</p>
       <div class="contact-links">
-        <a href="mailto:skppolu1@memphis.edu" class="btn btn-primary">skppolu1@memphis.edu</a>
+        <a href="mailto:saitejakoppolu24@gmail.com" class="btn btn-primary">saitejakoppolu24@gmail.com</a>
         <a href="https://github.com/kstc707" class="btn btn-ghost" target="_blank" rel="noopener">github.com/kstc707 ↗</a>
       </div>
     </div>
@@ -218,6 +232,6 @@
   </div>
 </div>
 
-<script src="script.js?v=2"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>

@@ -177,14 +177,140 @@ function closeModal() {
 function renderProjects() {
   const grid = document.getElementById("projectGrid");
   if (!grid) return;
-  grid.innerHTML = PROJECTS.map(p => `
-    <button class="project-card" data-project="${p.id}" type="button">
+  grid.innerHTML = PROJECTS.map((p, i) => `
+    <button class="project-card reveal" style="--d:${i % 6}" data-project="${p.id}" type="button">
       <h3>${p.title}</h3>
       <p>${p.desc}</p>
       <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
       <span class="card-link">Click to see the result →</span>
     </button>
   `).join("");
+}
+
+// ---------- Hero "scatter settles into a fitted line" demo ----------
+// A small, honest visual metaphor for the hero's own pitch: noisy points,
+// a line that actually fits them. Purely decorative — no claimed data.
+function renderScatterDemo() {
+  const svg = document.getElementById("scatterSvg");
+  const card = document.getElementById("scatterCard");
+  if (!svg || !card) return;
+
+  const W = 300, H = 170, pad = 26;
+  const x1 = pad, y1 = H - pad, x2 = W - pad, y2 = pad + 8;
+  const n = 13;
+  let circles = "";
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1);
+    const lineX = x1 + t * (x2 - x1);
+    const lineY = y1 + t * (y2 - y1);
+    const cx = lineX + (Math.random() - 0.5) * 10;
+    const cy = lineY + (Math.random() - 0.5) * 34;
+    const dx = (Math.random() - 0.5) * 2 * 95;
+    const dy = (Math.random() - 0.5) * 2 * 70;
+    circles += `<circle class="pt" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4.5" style="--dx:${dx.toFixed(0)}px;--dy:${dy.toFixed(0)}px;--i:${i}"></circle>`;
+  }
+  const lineLen = Math.hypot(x2 - x1, y2 - y1).toFixed(0);
+
+  svg.innerHTML = `
+    <line class="axis" x1="${pad}" y1="${H - pad}" x2="${W - pad}" y2="${H - pad}"></line>
+    <line class="axis" x1="${pad}" y1="${H - pad}" x2="${pad}" y2="${pad}"></line>
+    <line class="trend-line" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"
+      style="stroke-dasharray:${lineLen}; stroke-dashoffset:${lineLen}"></line>
+    ${circles}
+  `;
+
+  const settle = () => {
+    const line = svg.querySelector(".trend-line");
+    card.classList.add("settled");
+    if (line) line.style.strokeDashoffset = "0";
+  };
+  const reset = () => {
+    const line = svg.querySelector(".trend-line");
+    card.classList.remove("settled");
+    if (line) line.style.strokeDashoffset = String(lineLen);
+  };
+
+  setTimeout(settle, 500);
+  card.addEventListener("click", () => {
+    reset();
+    void card.offsetWidth; // force reflow so the re-settle transitions again
+    setTimeout(settle, 60);
+  });
+}
+
+// ---------- Scroll-triggered reveal ----------
+function setupReveal() {
+  const els = document.querySelectorAll(".reveal");
+  if (els.length === 0) return;
+  if (!("IntersectionObserver" in window)) {
+    els.forEach(el => el.classList.add("in-view"));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+  els.forEach(el => io.observe(el));
+}
+
+// ---------- Timeline: career-flow pulse down the rail ----------
+function setupTimelineFlow() {
+  const timeline = document.querySelector(".timeline");
+  if (!timeline) return;
+  const items = [...timeline.querySelectorAll(".timeline-item")];
+  if (items.length === 0) return;
+  if (!("IntersectionObserver" in window)) {
+    items.forEach(item => item.classList.add("in-view"));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        items.forEach((item, i) => setTimeout(() => item.classList.add("in-view"), i * 140));
+        io.unobserve(timeline);
+      }
+    });
+  }, { threshold: 0.15 });
+  io.observe(timeline);
+}
+
+// ---------- Hero stat counters ----------
+function setupCounters() {
+  const stats = document.querySelectorAll(".stat-num");
+  if (stats.length === 0) return;
+  const animate = (el) => {
+    const raw = el.textContent.trim();
+    const target = parseFloat(raw);
+    if (Number.isNaN(target)) return;
+    const isDecimal = raw.includes(".");
+    const duration = 1100;
+    const start = performance.now();
+    const step = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = isDecimal ? (target * eased).toFixed(1) : String(Math.round(target * eased));
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = raw;
+    };
+    requestAnimationFrame(step);
+  };
+  if (!("IntersectionObserver" in window)) {
+    stats.forEach(animate);
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animate(entry.target);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  stats.forEach(el => io.observe(el));
 }
 
 function setupProjectClicks() {
@@ -227,8 +353,12 @@ function setupNav() {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderProjects();
+  renderScatterDemo();
   setupNav();
   setupProjectClicks();
+  setupReveal();
+  setupTimelineFlow();
+  setupCounters();
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
